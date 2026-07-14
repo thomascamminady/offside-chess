@@ -5,6 +5,7 @@ import { offsideBoundary, isOnside } from "./chess/offside";
 import { findKing, isInCheck } from "./chess/board";
 import { type Color, type Move, type Square, fileOf, rankOf, squareOf, toAlgebraic, otherColor } from "./chess/types";
 import { chooseEngineMove, type Difficulty } from "./chess/engine";
+import { offsideTrapPosition } from "./chess/examples";
 import { GLYPHS } from "./pieces";
 
 type HumanSide = Color | "both";
@@ -72,6 +73,7 @@ app.innerHTML = `
           <button class="action primary" id="new-game">New match</button>
           <button class="action" id="flip-board">Flip board</button>
         </div>
+        <button class="action" id="load-example">Load example: The Offside Trap</button>
       </div>
       <ol class="move-list" id="move-list"></ol>
       <details class="rules">
@@ -87,6 +89,7 @@ app.innerHTML = `
           <li>The dashed line on the board shows where the side to move is currently offside.</li>
           <li>Push the opponent's defenders back and the line retreats with them.</li>
           <li>If the opponent has nothing left but their king, the line disappears &mdash; an open pitch.</li>
+          <li>Not obvious yet? Load the example below to see it bite immediately.</li>
         </ul>
       </details>
     </aside>
@@ -113,6 +116,7 @@ const difficultySelect = required(
 );
 const newGameBtn = required(document.querySelector<HTMLButtonElement>("#new-game"), "#new-game");
 const flipBoardBtn = required(document.querySelector<HTMLButtonElement>("#flip-board"), "#flip-board");
+const loadExampleBtn = required(document.querySelector<HTMLButtonElement>("#load-example"), "#load-example");
 
 function visualToSquare(row: number, col: number, flipped: boolean): Square {
   const rank = flipped ? row : 7 - row;
@@ -392,6 +396,17 @@ newGameBtn.addEventListener("click", () => {
 
 flipBoardBtn.addEventListener("click", () => {
   ui.flipped = !ui.flipped;
+  render();
+});
+
+loadExampleBtn.addEventListener("click", () => {
+  game.loadPosition(offsideTrapPosition(), "w");
+  clearSelection();
+  ui.lastMove = null;
+  ui.flashSquare = null;
+  ui.flipped = false;
+  ui.humanSide = "w";
+  sideSelect.value = "w";
   render();
 });
 

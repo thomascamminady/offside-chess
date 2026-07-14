@@ -5,7 +5,7 @@
   --panel-line: #24352a;
   --chalk: #eef0e4;
   --chalk-dim: #b7c2b6;
-  --turf-light: #eef0e4;
+  --turf-light: #e3d7b6;
   --turf-dark: #33513f;
   --flag: #e0483e;
   --flag-dim: rgba(224, 72, 62, 0.18);
@@ -43,7 +43,7 @@ select {
 }
 
 #app {
-  max-width: 1180px;
+  max-width: 1560px;
   margin: 0 auto;
   padding: 28px 20px 48px;
   display: flex;
@@ -106,6 +106,24 @@ select {
 @media (max-width: 880px) {
   .layout {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Wide screens: give the board a truly centered column by mirroring the
+   panel's width as an invisible spacer on the other side, instead of
+   centering the (board + panel) block as one off-center-looking unit. */
+@media (min-width: 1320px) {
+  .layout {
+    grid-template-columns: 1fr 320px minmax(0, 720px) 320px 1fr;
+    gap: 28px;
+  }
+
+  .board-wrap {
+    grid-column: 3;
+  }
+
+  .panel {
+    grid-column: 4;
   }
 }
 
@@ -198,7 +216,7 @@ select {
 
 .piece.white {
   color: #fbfaf4;
-  --stroke: #10160f;
+  --stroke: #000;
 }
 
 .piece.black {

@@ -2,7 +2,7 @@ import { createInitialBoard, isInCheck } from "./board";
 import { generateAllLegalMoves, generateLegalMoves, applyMove } from "./moves";
 import { moveToSAN } from "./notation";
 import { offsideLineRank } from "./offside";
-import type { Color, GameState, GameStatus, Move, PieceType, Square } from "./types";
+import type { Board, Color, GameState, GameStatus, Move, PieceType, Square } from "./types";
 
 export interface HistoryEntry {
   move: Move;
@@ -101,6 +101,21 @@ export class Game {
 
   reset() {
     this.state = initialState();
+    this.history = [];
+    this.positionCounts.clear();
+    this.recordPosition();
+  }
+
+  /** Drops in a hand-built position (e.g. a rules demo) as the new game start. */
+  loadPosition(board: Board, turn: Color = "w") {
+    this.state = {
+      board,
+      turn,
+      castling: { wK: false, wQ: false, bK: false, bQ: false },
+      enPassant: null,
+      halfmoveClock: 0,
+      fullmoveNumber: 1,
+    };
     this.history = [];
     this.positionCounts.clear();
     this.recordPosition();
