@@ -192,14 +192,18 @@ select {
   pointer-events: none;
   filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.35));
   transition: transform 0.12s ease;
+  -webkit-text-stroke: 1.5px var(--stroke, transparent);
+  paint-order: stroke fill;
 }
 
 .piece.white {
-  color: var(--chalk);
+  color: #fbfaf4;
+  --stroke: #10160f;
 }
 
 .piece.black {
   color: #161616;
+  --stroke: #f4f1e8;
 }
 
 .square.selected {
